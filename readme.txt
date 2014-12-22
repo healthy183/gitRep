@@ -20,3 +20,11 @@ good!
 
 
 this is not the clone msg again!
+
+this is bug 001!had fix it!
+
+i am fixing issue No.1!
+
+clone dev msg!
+
+
