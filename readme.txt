@@ -23,3 +23,5 @@ i am not the clone msg!
 
 为什么需要等？
 
+我发火！
+
