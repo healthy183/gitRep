@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  
+<parent>
+	<groupId>com.kang.shiro</groupId>
+	<artifactId>myShiro</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+</parent>
+  
+  
+  <groupId>com.kang.shiro</groupId>
+  <artifactId>myShiroFilter</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>myShiroFilter Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+     <properties>
+  	 	<jdk.version>1.7</jdk.version>
+        <tomcat.maven.version>2.1</tomcat.maven.version>
+  </properties>
+  
+  <dependencies>
+    
+     <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+       </dependency>
+        
+       <dependency>
+           <groupId>javax.servlet.jsp</groupId>
+           <artifactId>jsp-api</artifactId>
+           <version>2.2</version>
+           <scope>provided</scope>
+       </dependency>
+    
+    	 <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+    
+    
+  </dependencies>
+  
+  
+  <build>
+    <finalName>myShiroFilter</finalName>
+    
+     <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+          
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat.maven.version}</version>
+                <configuration>
+                    <port>8080</port>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    
+    
+    
+  </build>
+</project>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+		<batch:job id="txtJob">
+			<batch:step id="txtJobStep">
+					<batch:tasklet>
+						<batch:chunk reader="txtReader" writer="txtWriter" processor="txtItemProcessor" commit-interval="10"></batch:chunk>
+					</batch:tasklet>
+			</batch:step>
+		</batch:job>
+		
+		<bean id="txtReader"
+			class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">  
+					<property name="resource" value="#{jobParameters['inputFilePath']}"></property>		
+					<property name="lineMapper">
+						<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+							<property name="lineTokenizer" ref="lineTokenizer">	</property>
+							<property name="fieldSetMapper">
+								<bean class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+										<property name="prototypeBeanName" value="studentTxt"></property>		
+								</bean>
+							</property>
+						</bean>
+					</property>
+		</bean>
+		
+		<bean id="studentTxt" class="com.kang.batch2.model.StudentTxt"  scope="prototype"></bean>
+			
+		<bean id="lineTokenizer"
+			 class="org.springframework.batch.item.file.transform.FixedLengthTokenizer"> 
+					<property name="columns" value="1-6,7-15,16-18,19-"></property>
+					<property name="names" value="ID,name,age,score"></property>
+		</bean>
+	
+		<bean id="txtWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+				<property name="resource" value="#{jobParameters['outputFilePath']}"></property>	
+				<property name="lineAggregator">
+						<bean class="org.springframework.batch.item.file.transform.FormatterLineAggregator">
+								<property name="fieldExtractor">
+									<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+											<property name="names" value="ID,name,age,score"></property>
+									</bean>
+								</property>
+								<property name="format" value="%-9s%-20s%3d%-2.0f"></property>
+						</bean>
+				</property>
+		</bean>
+	
+	
+		<bean id="txtItemProcessor" class="com.kang.batch2.processor.TxtItemProcessor"></bean>
+	
+	</beans>

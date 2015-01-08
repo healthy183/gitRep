@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 	xmlns:tx="http://www.springframework.org/schema/tx" 
+ 	xmlns:aop="http://www.springframework.org/schema/aop"
+  	xmlns:context="http://www.springframework.org/schema/context"
+  	xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="       
+	   http://www.springframework.org/schema/beans       
+	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd       
+	   http://www.springframework.org/schema/aop        
+	   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+	   http://www.springframework.org/schema/tx      
+	   http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	   http://www.springframework.org/schema/context   
+	   http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	   http://www.directwebremoting.org/schema/spring-dwr  
+	   http://www.directwebremoting.org/schema/spring-dwr-4.0.xsd">
+
+	<!-- 扫描注解Bean -->
+    <context:component-scan base-package="com.kang">
+        <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+    </context:component-scan>
+	
+	<bean id="afterAdviceImpl" class="com.kang.service.impl.AfterAdviceImpl"></bean>
+	
+	
+	<bean id="adviceClass" class="com.kang.advice.AdviceClass"></bean>
+	
+
+	<aop:config>
+		<aop:pointcut id="pointcut" expression="execution(* com.kang.service.impl..*.testAfterAdvice(..))" />
+		<aop:aspect ref="adviceClass">
+					<aop:after pointcut-ref="pointcut" method="doingAfterAdvice"/>  	
+		</aop:aspect>
+	</aop:config>
+
+	<aop:config>
+		<aop:aspect ref="adviceClass">
+				<aop:after  pointcut="execution(* com.kang.service.impl..*.testStatedAfterAdvice(..)) and args(param)" 
+						method="testStatedAfterAdvice(java.lang.String)"
+						arg-names="param" />
+		</aop:aspect>
+	</aop:config> 
+	
+	
+	<aop:config>
+		<aop:aspect ref="adviceClass">
+				<aop:after-returning  pointcut="execution(* com.kang.service.impl..*.testReturnAfterAdice(..))" 
+						method="doingReturnAfterAdice"
+						arg-names="param"
+						returning="param" />
+		</aop:aspect>
+	</aop:config>
+	
+	
+		<aop:config>
+		<aop:aspect ref="adviceClass">
+				<aop:after-throwing  pointcut="execution(* com.kang.service.impl..*.testExceptionAfterAdice())" 
+						method="doingExceptionAfterAdice"
+						arg-names="exception"
+						throwing="exception" />
+		</aop:aspect>
+	</aop:config>
+
+
+	</beans>

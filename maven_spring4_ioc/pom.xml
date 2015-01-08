@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.spring4.ioc</groupId>
+		<artifactId>maven_spring4</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>com.spring4.ioc</groupId>
+	<artifactId>maven_spring4_ioc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>maven_spring4_ioc</name>
+	<url>http://maven.apache.org</url>
+
+ <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<hibernate-validator>5.0.1.Final</hibernate-validator>
+  	 	
+  </properties>
+  
+    <dependencies>
+    
+    
+		 <dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-validator</artifactId>
+	<version>${hibernate-validator}</version>
+	</dependency>
+		
+  
+    
+	</dependencies>
+
+</project>

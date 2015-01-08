@@ -1,0 +1,66 @@
+<beans:beans
+	 xmlns= "http://www.springframework.org/schema/batch"
+     xmlns:beans="http://www.springframework.org/schema/beans" 
+     xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/batch 
+     http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+	
+	 <job id="billingJob" restartable="true">
+	<step id="billingStep" next="splitStep">
+		<tasklet task-executor="taskExecutor" throttle-limit="5">
+			<chunk reader="userDbReader" processor="billingProcessor"
+        writer="billDbWriter" commit-interval="5" chunk-completion-policy="">
+			</chunk>
+		</tasklet>
+	</step>
+	<split id="splitStep" task-executor="taskExecutor"  next="decider">
+		<flow>
+			<step id="billingMessageStep">
+				<tasklet>
+                  <chunk reader="billDbReader" processor="billMessageItemProcessor"
+					writer="messageDbWriter" commit-interval="5"
+							chunk-completion-policy="">
+					</chunk>
+				</tasklet>
+			</step>
+		</flow>
+		<flow>
+			<step id="payStep">
+				<tasklet>
+                   <chunk reader="billDbReader" processor="payProcessor"
+                   writer="payDbWriter" commit-interval="5" chunk-completion-policy=""
+                   skip-limit="100">
+                    <skippable-exception-classes>
+                      <include 
+                  class="org.springframework.batch.sample.MoneyNotEnoughException" />
+                      </skippable-exception-classes>
+					</chunk>
+				</tasklet>
+			</step>
+		</flow>
+	</split>
+	<decision id="decider" decider="messagesDecider">
+		<next on="COMPLETED WITH SKIPS" to="paymentMessageStep" />
+		<end on="COMPLETED" />
+	</decision>
+	<step id="paymentMessageStep">
+		<tasklet>
+			<chunk reader="billArrearsDbReader" processor="messageProcessor"
+					writer="messageDbWriter" commit-interval="5"
+					chunk-completion-policy="">
+			</chunk>
+		</tasklet>
+	</step>
+</job>
+
+
+		
+		
+
+
+	
+</beans:beans>	

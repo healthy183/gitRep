@@ -1,0 +1,24 @@
+<beans:beans
+	 xmlns= "http://www.springframework.org/schema/batch"
+     xmlns:beans="http://www.springframework.org/schema/beans" 
+     xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/batch 
+     http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+	<job id="onecoderJob">
+		<step id="firstStep" next="secondStep">
+			<tasklet ref="firstTasklet"></tasklet>
+		</step>
+		<step id="secondStep">
+			<tasklet>
+				<chunk reader="firstReader" writer="firstWriter" processor="firstProcessor" commit-interval="1"></chunk>
+			</tasklet>
+		</step>
+	
+	</job>
+	
+	
+</beans:beans>	

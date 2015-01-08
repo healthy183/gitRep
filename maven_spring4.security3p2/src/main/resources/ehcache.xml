@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache name="shirocache">
+
+ <diskStore path="java.io.tmpdir"/>
+
+	<cache  
+    name="userCache"  
+    maxElementsInMemory="100"  
+    eternal="false"  
+    timeToIdleSeconds="600"  
+    timeToLiveSeconds="3600"  
+    overflowToDisk="true"  
+/>
+
+
+</ehcache>

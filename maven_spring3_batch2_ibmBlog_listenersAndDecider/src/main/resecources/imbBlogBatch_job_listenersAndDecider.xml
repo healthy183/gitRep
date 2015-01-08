@@ -1,0 +1,80 @@
+<beans:beans
+	 xmlns= "http://www.springframework.org/schema/batch"
+     xmlns:beans="http://www.springframework.org/schema/beans" 
+     xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/batch 
+     http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+
+		<job id="billingJobListeners" restartable="true">
+			
+			<step id="billingStep" next="payStep">
+				<tasklet>
+						<chunk reader="userDbReader" processor="billingProcessor" writer="billDbWriter" 
+							commit-interval="5" chunk-completion-policy=""></chunk>
+				</tasklet>
+			</step>
+			
+			<step id="payStep">
+					<tasklet>
+						<chunk reader="billDbReader" processor="payProcessor" writer="payDbWriter"
+							commit-interval="5" chunk-completion-policy="" skip-limit="100">
+								<skippable-exception-classes>
+										<include
+											class="com.kang.batch2.ibmBlog.exception.MoneyNotEnoughException" />
+									</skippable-exception-classes>	
+						</chunk>
+					</tasklet>
+						<next on="COMPLETED WITH SKIPS" to="messageStep"/>
+					<listeners>
+							<listener ref="payStepCheckingListener"></listener>
+					</listeners>
+			</step>
+			<step id="messageStep">
+			<tasklet>
+				<chunk reader="billArrearsDbReader" processor="messageProcessor"
+					writer="messageDbWriter" commit-interval="5"
+					chunk-completion-policy="">
+				</chunk>
+			</tasklet>
+		</step>
+		</job>
+		
+		<!-- -->
+		<job id="billingJobDecision" restartable="true">
+			<step id="billing" next="pay">
+				<tasklet>
+					<chunk reader="userDbReader" processor="billingProcessor" writer="billDbWriter" 
+							commit-interval="5" chunk-completion-policy=""></chunk>
+				</tasklet>
+	</step>
+	<step id="pay" next="decider">
+			<tasklet>
+				<chunk reader="billDbReader" processor="payProcessor" writer="payDbWriter"
+						commit-interval="5" chunk-completion-policy="" skip-limit="100">
+						<skippable-exception-classes>
+								<include
+									class="com.kang.batch2.ibmBlog.exception.MoneyNotEnoughException" />
+						</skippable-exception-classes>	
+				</chunk>
+			</tasklet>
+	</step>
+	<decision id="decider" decider="messagesDecider">
+		<next on="COMPLETED WITH SKIPS" to="message" />
+		<end on="COMPLETED" />
+	</decision>
+	
+	<step id="message">
+		<tasklet>
+				<chunk reader="billArrearsDbReader" processor="messageProcessor"
+					writer="messageDbWriter" commit-interval="5"
+					chunk-completion-policy="">
+				</chunk>
+			</tasklet>
+	</step>
+</job> 
+	
+</beans:beans>	

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<bean id="userDbReader" class="org.springframework.batch.item.database.JdbcPagingItemReader">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="rowMapper" ref="userDbMapper" ></property>
+			<property name="queryProvider" ref="userQueryProvider"></property>
+	</bean>
+	
+	<bean id="userDbMapper" class="com.kang.batch2.ibmBlog.mapper.UserDbMapper"></bean>
+	
+	<!-- <bean id="userQueryProvider" class="org.springframework.batch.item.database.support.MySqlPagingQueryProvider">
+		<property name="selectClause" value="u.id,u.name,u.age,u.balance"></property>
+		<property name="fromClause" value="users u"></property>
+		<property name="sortKey" value="u.id"></property>
+	</bean> -->
+	
+	<bean id="userQueryProvider" class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="selectClause" value="u.id,u.name,u.age,u.balance"></property>
+		<property name="fromClause" value="from users u"></property>
+		<!-- <property name="whereClause" value="where u.name=:name" /> -->
+		<property name="sortKey" value="u.id"></property>
+		
+		<!-- <property name="parameterValues">
+		   <map>
+				<entry key="name" value="#{jobParameters['name']}" />
+		   </map>
+		</property>
+		<property name="pageSize" value="10" />
+		 -->
+	</bean>
+	
+	
+	<bean id="billingProcessor" class="com.kang.batch2.ibmBlog.processor.BillingItemProcessor"></bean>
+	
+	<bean id="billDbWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="sql" value="insert into bills(id,user_id,fees,paid_fees,unpaid_fees,pay_status) values(:id,:user.id,:fees,:paidFees,:unpaidFees,:payStatus)"></property>                        
+		<property name="itemSqlParameterSourceProvider" ref="itemSqlParameterSourceProvider"></property>
+	</bean>
+	
+	<bean id="itemSqlParameterSourceProvider" 
+		class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider"></bean>
+	
+	<bean id="billDbReader"
+		class="org.springframework.batch.item.database.JdbcPagingItemReader">
+		<property name="dataSource" ref="dataSource" />
+		<property name="rowMapper" ref="billDbMapper" />
+		<property name="queryProvider" ref="billQueryProvider" />
+	</bean>
+	
+	<bean id="billDbMapper" class="com.kang.batch2.ibmBlog.mapper.BillDbMapper"></bean>
+	
+	<bean id="billQueryProvider" class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean"> 
+		<property name="dataSource" ref="dataSource" />	
+		<property name="selectClause"
+			value="b.id,b.user_id,b.fees,b.paid_fees,b.unpaid_fees,b.pay_status,u.name,u.age,u.balance" />
+		<property name="fromClause" value="users u,bills b" />
+		<property name="whereClause" value="b.user_id=u.id" />
+		<property name="sortKey" value="b.id" />	
+	</bean>
+
+	<bean id="payProcessor" class="com.kang.batch2.ibmBlog.processor.PaymentItemProcessor"></bean>
+
+
+	<bean id="payDbWriter"
+		class="org.springframework.batch.item.support.CompositeItemWriter">
+		<property name="delegates">
+			<list>
+				<ref bean="payRecordDbWriter" />
+				<ref bean="payBillsDbUpdateWriter" />
+				<ref bean="payUsersDbUpdateWriter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="payRecordDbWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql"
+			value="insert into payrecords(id,bill_id,paid_fees) values(:id,:bill.id,:paidFees)" />
+		<property name="itemSqlParameterSourceProvider"
+			ref="itemSqlParameterSourceProvider" />
+	</bean>
+	
+	<bean id="payBillsDbUpdateWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql"
+			value="update bills b set b.paid_fees=:bill.paidFees,b.unpaid_fees=:bill.unpaidFees,b.pay_status=:bill.payStatus where b.id=:bill.id" />
+		<property name="itemSqlParameterSourceProvider"
+			ref="itemSqlParameterSourceProvider" />
+	</bean>
+	
+	<bean id="payUsersDbUpdateWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql"
+			value="update users u set u.balance=:bill.user.balance where u.id=:bill.user.id" />
+		<property name="itemSqlParameterSourceProvider"
+			ref="itemSqlParameterSourceProvider" />
+	</bean>
+
+
+		
+	<bean id="payStepCheckingListener"
+		class="com.kang.batch2.ibmBlog.listener.PayStepCheckingListener">
+	</bean>
+	
+	<bean id="billArrearsDbReader"
+		class="org.springframework.batch.item.database.JdbcPagingItemReader">
+		<property name="dataSource" ref="dataSource" />
+		<property name="rowMapper" ref="billDbMapper" />
+		<property name="queryProvider" ref="billArrearsQueryProvider" />
+	</bean>
+	
+	<bean id="billArrearsQueryProvider"
+		class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="selectClause"
+			value="b.id,b.user_id,b.fees,b.paid_fees,b.unpaid_fees,b.pay_status,u.name,u.age,u.balance" />
+		<property name="fromClause" value="users u,bills b" />
+		<property name="whereClause"
+			value="b.user_id=u.id and b.pay_status=0" />
+		<property name="sortKey" value="b.id" />
+	</bean>
+	
+	<bean id="messageProcessor"
+		class="com.kang.batch2.ibmBlog.processor.ArrearsMessagesItemProcessor"></bean>
+		
+	<bean id="messageDbWriter"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql"
+			value="insert into messages(id,user_id,content) values(:id,:user.id,:content)" />
+		<property name="itemSqlParameterSourceProvider"
+			ref="itemSqlParameterSourceProvider" />
+	</bean>	
+	
+	<bean id="messagesDecider" class="com.kang.batch2.ibmBlog.decider.MessagesDecider"></bean>
+	
+	
+	<!-- <bean name="step"
+	class="org.springframework.batch.core.partition.support.PartitionStep">
+	<property name="partitionHandler">
+		<bean
+class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler">
+			<property name="step" ref="remoteStep" />
+			<property name="gridSize" value="10" />
+			<property name="taskExecutor" ref="taskExecutor" />
+		</bean>
+	</property>
+	<property name="stepExecutionSplitter">
+      <bean 
+class="org.springframework.batch.core.partition.support.SimpleStepExecutionSplitter">
+			<constructor-arg ref="jobRepository" />
+			<constructor-arg ref="messageStep" />
+			<constructor-arg ref="simplePartitioner" />
+		</bean>
+	</property>
+	<property name="jobRepository" ref="jobRepository" />
+</bean>
+
+
+<bean id="remoteStep"
+	class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+	<property name="serviceInterface" 
+	    value="org.springframework.batch.core.Step" />
+	<property name="serviceUrl" 
+	     value="${batch.remote.base.url}/steps/messageStep" />
+</bean> -->
+	
+	
+	
+	</beans>

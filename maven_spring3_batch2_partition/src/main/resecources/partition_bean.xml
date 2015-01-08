@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pagingItemReader"
+	 	class="org.springframework.batch.item.database.JdbcPagingItemReader" scope="step">
+	 		<property name="dataSource" ref="dataSource"></property>
+	 		<property name="queryProvider">
+	 			<bean class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+	 				<property name="dataSource" ref="dataSource"></property>
+					<property name="selectClause" value="u.id,u.name,u.age,u.balance"></property>
+					<property name="fromClause" value="from users u"></property>
+					<property name="sortKey" value="u.id"></property>	
+				</bean>
+	 		</property>
+	 		
+	 		<property name="pageSize" value="10" />
+	 		<property name="rowMapper">
+	 				<bean class="com.kang.batch2.partition.mapping.UserDbMapper"></bean>
+	 		</property>
+	 </bean>
+	
+	<bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+			<property name="resource" value="file:csv/outputs/users.processed#{stepExecutionContext[fromId]}-#{stepExecutionContext[toId]}.csv"></property>
+			<property name="appendAllowed" value="false"></property>
+			<property name="lineAggregator">
+				<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+					<property name="delimiter" value="," />
+					<property name="fieldExtractor">
+						<bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+							<property name="names" value="id,name,age,balance"></property>
+						</bean>
+					</property>
+				</bean>
+			</property>
+	</bean>
+	
+	
+	
+	</beans>

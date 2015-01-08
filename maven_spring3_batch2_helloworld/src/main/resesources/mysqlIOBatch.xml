@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<batch:job id="mysqlJob">
+			<batch:step id="mysqlStep" >
+					<batch:tasklet>
+						<batch:chunk reader="mysqlReader" writer="mysqlWriter" commit-interval="1"></batch:chunk>
+					</batch:tasklet>
+			</batch:step>
+		</batch:job>
+	
+	
+	<bean id="mysqlReader" class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="sql" value="select ID,USERID,USERNAME,PASSWORD from t_user where USERID = ?"></property>
+			<property name="rowMapper">
+					<bean class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+							<property name="mappedClass" value="com.kang.batch2.model.User"></property>
+					</bean>
+			</property>
+			<property name="preparedStatementSetter" ref="paramStatementSetter"></property>
+	</bean>
+	
+	<bean id="paramStatementSetter" class="org.springframework.batch.core.resource.ListPreparedStatementSetter" scope="step">
+			<property name="parameters">
+					<list>
+						<value>#{jobParameters['id']}</value>
+					</list>
+			</property>
+	</bean>
+	
+	<bean id="mysqlWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter" scope="step">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="sql" 
+				value="insert into t_user_cope(ID,USERID,USERNAME,PASSWORD) values(:ID,:USERID,:USERNAME,:PASSWORD)">
+			</property>
+			<property name="itemSqlParameterSourceProvider">
+				<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider"></bean>
+			</property>
+	</bean>
+	
+	</beans>

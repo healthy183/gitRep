@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  
+  
+  <parent>
+      <artifactId>maven_servlet3_aparent</artifactId>
+	  <groupId>com.kang.servlet3</groupId>
+	  <version>0.0.1-SNAPSHOT</version>
+	  <relativePath>../maven_servlet3_aparent/pom.xml</relativePath>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>maven_servlet3_dynamicServelt</artifactId>
+  <packaging>war</packaging>
+  
+<!--   <name>maven_servlet3_dynamicServelt Maven Webapp</name>
+  <url>http://maven.apache.org</url> -->
+  
+  
+  
+  <dependencies>
+
+ 
+  </dependencies>
+  <build>
+    <finalName>maven_servlet3_dynamicServelt</finalName>
+  </build>
+</project>

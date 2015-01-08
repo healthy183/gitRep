@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+       
+    <!-- 开启controller注解支持 -->
+    <!-- 注：如果base-package=com.kang 则注解事务不起作用-->
+    <context:component-scan base-package="com.kang.*.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    
+     <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/> 
+    
+    </context:component-scan>
+	
+	  
+	   <!-- message-codes-resolver              add since 3.1,but dont know how to use！ >_<-->
+	   <!-- ignoreDefaultModelOnRedirect="true" add since 3.1, default true-->
+	   <!-- enableMatrixVariables="true"        add since 3.2, default true -->
+	   <!-- content-negotiation-manager=""      add since 3.2-->
+	    <!-- 会自动注册了validator  ConversionService  -->
+    <mvc:annotation-driven validator="validator" 
+    			conversion-service="conversion-service" message-codes-resolver="messageCodeResolver"  > 
+ 	
+    		<!--	
+    		<mvc:return-value-handlers>
+    			<bean class="com.kang.newThreePointOne.model.ReturnHandlerUser"></bean>
+    		</mvc:return-value-handlers> add since 3.1,but dont know how to use！ >_< -->
+    		
+    		<!-- add since 3.1,but dont know how to use！ >_< 
+    		<mvc:argument-resolvers> 
+    			<bean class="com.kang.newThreePointOne.model.MyCustomerWebArgumentHandler"></bean>	
+    		</mvc:argument-resolvers>--> 
+    		
+    		<!--  p:supportedMediaTypes="*/*" -->
+    		<!--  add since 3.1,but dont know how to use！ >_<!-->
+    		<mvc:message-converters register-defaults="true">  
+    			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"
+    				 p:supportedMediaTypes="*/*">
+    			</bean>
+    		</mvc:message-converters> 
+    		<!-- add since 3.1,but dont know how to use！ >_< -->
+    		<!-- 
+    			<mvc:async-support>
+    			</mvc:async-support>
+    		 -->
+      </mvc:annotation-driven>
+    
+    <bean id="messageCodeResolver" class="org.springframework.validation.DefaultMessageCodesResolver">  
+    		<property name="prefix" value="validation."></property>  
+	</bean>  
+    
+    <!-- MethodValidationPostProcessor -->
+    <!-- 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
+        <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+    
+     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="fileEncodings" value="utf-8"/>
+        <property name="cacheSeconds" value="120"/>
+    </bean>
+		
+		<!-- 转换器专用 	-->
+	  <bean id="conversion-service" 
+	  	class="org.springframework.format.support.FormattingConversionServiceFactoryBean" > 
+			<property name="converters">
+				<list>
+					<bean class="com.kang.conversion.conversion.StringToPhoneNumberConverter"></bean>
+					<bean class="com.kang.conversion.conversion.StringToDateConverter">
+						<constructor-arg value="yyyy-MM-dd"></constructor-arg>
+					</bean>
+				</list>
+			</property>
+			<property name="formatters">
+				 <list>
+				 	<bean class="com.kang.conversion.annotation.PhoneNumberFormatAnnotationFormatterFactory"></bean>
+				 </list>
+			</property>
+		</bean>
+
+    
+     <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+    <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="3">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="contentType" value="text/html"/>        
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+      <!-- json view 
+    <bean id="defaultJsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+    -->
+    <!-- 文件上传相关 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--one of the properties available;the maximum file size in bytes-->
+        <property name="maxUploadSize" value="100000"/>
+    </bean>
+     
+    <!-- 控制器异常处理
+     <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView">
+			<value>error/showError</value>
+		</property>
+        <property name="exceptionMappings">
+              <props>
+                  <prop key="java.lang.Exception">
+                        error/showError
+                </prop>
+            </props>
+        </property>
+    </bean> --><!-- -->
+    <!-- 拦截器 拦截指定URL 
+	 <mvc:interceptors>
+	 	<mvc:interceptor>
+			<mvc:mapping path="/admin*/*"/> 
+			<bean class="com.kang.admin.interceptor.AdminInterceptor"></bean> 
+	 	</mvc:interceptor>  
+	 </mvc:interceptors>--><!--拦截器class -->   
+	 
+	 
+	 
+	 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">  
+    <property name="cookieName" value="locale"/>  
+    <property name="cookieMaxAge" value="-1"/>  
+    <property name="defaultLocale" value="zh_CN"/>  
+	</bean>  
+
+
+<mvc:interceptors>  
+    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">  
+        <property name="paramName" value="language"/>  
+    </bean>  
+</mvc:interceptors> 
+       </beans>

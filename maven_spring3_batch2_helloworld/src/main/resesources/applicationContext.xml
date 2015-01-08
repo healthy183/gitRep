@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+   <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+	   		<property name="jobRepository" ref="jobRepository"></property>
+	</bean>
+
+    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+    </bean>
+
+  <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager">
+    </bean>
+     
+     <bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/springbatch2?useunicode=true&amp;characterEncoding=utf8">
+		</property>
+		<property name="username" value="root"/>
+		<property name="password" value="Qq123456"/>
+	</bean>  
+	  
+	  
+ <import resource="helloWorldBatch.xml"/>
+ <import resource="cvsIOBatch.xml"/>
+ <import resource="xmlIOBatch.xml"/>
+ <import resource="txtIOBatch.xml"/>
+ <import resource="multiTypeSingleFileIOBatch.xml"/>
+ <import resource="mysqlIOBatch.xml"/>
+</beans>

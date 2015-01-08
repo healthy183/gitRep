@@ -1,0 +1,52 @@
+8
+
+dir
+2712
+http://192.168.148.213/svn/opsis/source/trunk/icac.opsis.web.war/src/main/webapp/js/jqGrid/css
+http://192.168.148.213/svn/opsis
+
+
+
+2013-08-30T11:57:35.884897Z
+624
+01352699
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+538dc08f-bee0-43c0-8158-c8d89f53696b
+
+ui.jqgrid.css
+file
+
+
+
+
+2013-10-29T04:28:34.687500Z
+c0c17b123e18ce31715a05e253a7dfa6
+2013-08-30T11:57:35.884897Z
+624
+01352699
+
+ellipsis-xbl.xml
+file
+
+
+
+
+2013-10-29T04:28:34.687500Z
+cf2c7183a7882faaace78f14a4f71cb1
+2013-08-01T10:01:39.518490Z
+244
+01208255
+

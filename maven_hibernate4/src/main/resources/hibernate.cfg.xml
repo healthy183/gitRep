@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">123456</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/spring3hibernate4jbpm4?useunicode=true&amp;characterEncoding=utf8</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+        <property name="show_sql">true</property>
+		<!-- 格式化sql -->
+		<property name="format_sql">true</property>
+		
+		<mapping class="com.mavenHiberate4.model.SysUsers" />
+		<mapping class="com.mavenHiberate4.model.SysRoles" />
+		<mapping class="com.mavenHiberate4.model.TReimitm" />
+		<mapping class="com.mavenHiberate4.model.TReimapp" />
+		<mapping class="com.mavenHiberate4.model.TReim" />
+		<mapping class="com.mavenHiberate4.model.UsrRoleLink" />
+		
+    </session-factory>
+</hibernate-configuration>

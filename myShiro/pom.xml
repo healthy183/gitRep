@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.kang.shiro</groupId>
+	<artifactId>myShiro</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>myShiro</name>
+	<url>http://maven.apache.org</url>
+
+
+	<repositories>
+    
+    </repositories>
+  
+    <modules>
+    	<module>../myShiroLoginAndOut/pom.xml</module>
+    	<module>../myShiroAuthorization/pom.xml</module>
+    	<module>../myShiroEncodeAndDecode/pom.xml</module>
+    	<module>../myShiroRealmJDBC/pom.xml</module>
+    	<module>../myShiroServlet/pom.xml</module>
+    	<module>../myShiroFilter/pom.xml</module>
+    	<module>../myShiroTag/pom.xml</module>
+    	<module>../myShiroSession/pom.xml</module>
+    	<module>../myShiroSpringWeb/pom.xml</module>
+    </modules>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit>4.9</junit>
+		<commons-logging>1.1.3</commons-logging>
+		<shiro-core>1.2.2</shiro-core>
+		<mysql-connector-java>5.1.25</mysql-connector-java>
+		<druid>0.2.23</druid>
+		
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro-core}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid}</version>
+		</dependency>
+
+	</dependencies>
+</project>

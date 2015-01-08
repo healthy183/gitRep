@@ -1,0 +1,62 @@
+8
+
+dir
+2712
+http://192.168.148.213/svn/opsis/source/trunk/icac.opsis.web.war/src/main/webapp/js/jqGrid
+http://192.168.148.213/svn/opsis
+
+
+
+2014-04-01T07:13:48.647369Z
+2712
+01208255
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+538dc08f-bee0-43c0-8158-c8d89f53696b
+
+i18n
+dir
+
+jquery.jqGrid.src.js
+file
+
+
+
+
+2014-02-24T01:34:19.625000Z
+b2b7f5c57f21212c74e149ae6f631d29
+2014-02-20T17:11:18.358102Z
+2303
+01208255
+
+plugins
+dir
+
+css
+dir
+
+jqGrid.spring.save.js
+file
+
+
+
+
+2014-04-03T06:24:13.734375Z
+59f69a586dc1e972d931b8ed2ec3e6ba
+2014-04-01T07:13:48.647369Z
+2712
+01208255
+has-props
+

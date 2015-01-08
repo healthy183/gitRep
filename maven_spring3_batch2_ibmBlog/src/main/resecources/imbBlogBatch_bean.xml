@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<bean id="messageReader" 
+      class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="resource"  value="classpath:userRead.txt"></property>
+		<property name="lineMapper" ref="lineMapper"></property>
+</bean>
+<bean id="lineMapper"
+	class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+	<property name="lineTokenizer">
+		<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"></bean>
+	</property>
+	<property name="fieldSetMapper">
+		<bean class="com.kang.batch2.ibmBlog.fieldSetMapper.UserMapper"></bean>
+	</property>
+</bean>
+	
+	<bean id="messagesItemWriter"  class="com.kang.batch2.ibmBlog.messageReader.MessagesItemWriter"></bean>
+	
+	<bean id="messagesItemProcessor" class="com.kang.batch2.ibmBlog.messagesProcessor.MessagesItemProcessor"></bean>
+	
+	
+	
+	<!-- <bean id="firstTasklet" class="com.kang.batch2.tasklet.FirstTasklet"></bean>
+	
+	
+	<bean id="firstReader" class="com.kang.batch2.reader.FirstReader"></bean>
+	
+	
+	 -->
+	</beans>
