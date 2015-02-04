@@ -1,4 +1,4 @@
-package com.kang.batch3.configuration;
+package com.kang.batch3.configuration.single;
 
 import javax.sql.DataSource;
 

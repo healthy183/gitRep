@@ -15,7 +15,7 @@ import com.kang.batch3.model.Person;
 
 @ComponentScan("com.kang")
 @EnableAutoConfiguration
-public class BatchMysqlConfigurationApplication {
+public class RunAllConfigurationApplication {
 
 /*create table people(
 	first_name varchar(10),
@@ -24,7 +24,7 @@ public class BatchMysqlConfigurationApplication {
 	public static void main(String[] args) {
 
 		ApplicationContext ctx = SpringApplication.run(
-				BatchMysqlConfigurationApplication.class, args);
+				RunAllConfigurationApplication.class, args);
 
 		/*List<Person> results = ctx.getBean(JdbcTemplate.class).query(
 				"SELECT first_name, last_name FROM people",

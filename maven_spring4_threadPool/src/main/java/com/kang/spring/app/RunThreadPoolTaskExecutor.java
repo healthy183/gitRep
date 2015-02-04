@@ -23,11 +23,11 @@ public class RunThreadPoolTaskExecutor {
 		taskExecutor.execute(printThread);
 		
 		PrintRunnable printThread2 = tx.getBean(PrintRunnable.class);
-		printThread2.setName("first Thread");
+		printThread2.setName("second Thread");
 		taskExecutor.execute(printThread2);
 		
 		PrintRunnable printThread3 = tx.getBean(PrintRunnable.class);
-		printThread3.setName("first Thread");
+		printThread3.setName("third Thread");
 		taskExecutor.execute(printThread3);
 		
 		while (true) {

@@ -1,4 +1,4 @@
-package com.kang.batch3.configuration;
+package com.kang.batch3.configuration.single;
 
 import java.io.File;
 
