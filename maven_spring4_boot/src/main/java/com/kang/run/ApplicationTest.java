@@ -1,14 +1,18 @@
 package com.kang.run;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 @ComponentScan("com.kang")
-@EnableAutoConfiguration
+//@PropertySource
+@SpringBootApplication//@Configuration @EnableAutoConfiguration
+//@SpringApplicationConfiguration(classes = MainConfig.class)
 public class ApplicationTest {
+
+	
+	/*private static final EntityManagerFactory INSTANCE =
+            Persistence.createEntityManagerFactory("transactions-optional");*/
 	
 	public static void main(String[] args) {
 		

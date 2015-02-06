@@ -1,4 +1,4 @@
-package com.kang.boot.model;
+package com.kang.boot.vo;
 
 import java.io.Serializable;
 
