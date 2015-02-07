@@ -12,16 +12,23 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.NotFound;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "orders")
 @Data
 @EqualsAndHashCode(exclude = { "id" })
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order  implements java.io.Serializable{
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotFound 
 	private Integer id;
 
 	@Column(name = "code", nullable = false)

@@ -8,4 +8,12 @@ public interface IOrderService {
 
 	List<Order> findAll();
 
+	Order saveOrder();
+
+	Order updateOrder();
+
+	Order deleteOrder(int id);
+
+	List<Order> findAllBySql();
+
 }

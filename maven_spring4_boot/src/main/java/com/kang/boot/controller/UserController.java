@@ -17,7 +17,7 @@ import com.kang.boot.vo.User;
 public class UserController {
 
 	@Autowired
-	private	IOrderService storeService;
+	private	IOrderService orderService;
 	
 	//http://localhost:9090/user/1
 	@RequestMapping("/{id}")  
@@ -32,14 +32,37 @@ public class UserController {
 		return user;
 	}
 	
+	//http://localhost:9090/user/findAllBySql
+	@RequestMapping("findAllBySql")  
+	public List<Order> findAllBySql() {
+		return  orderService.findAllBySql();
+	}
+	
 	//http://localhost:9090/user/findAllOrder
 	@RequestMapping("/findAllOrder") 
 	public List<Order> findAllOrder(){
 		
-		List<Order>  orderList = storeService.findAll();
-		
-		
+		List<Order>  orderList = orderService.findAll();
 		return orderList;
+	}
+	
+	
+	//http://localhost:9090/user/saveOrder
+	@RequestMapping("/saveOrder") 
+	public Order saveOrder(){
+		return orderService.saveOrder();
+	}
+	
+	//http://localhost:9090/user/updateOrder
+	@RequestMapping("/updateOrder") 
+	public Order updateOrder(){
+		return orderService.updateOrder();
+	}
+	
+	//http://localhost:9090/user/deleteOrder/18
+	@RequestMapping("/deleteOrder/{id}")
+	public Order deleteOrder(@PathVariable("id") int id){
+		return orderService.deleteOrder(id);
 	}
 	
 	

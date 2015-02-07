@@ -2,6 +2,7 @@ package com.kang.boot.dao.config;
 
 import java.util.HashMap;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 
 @Configuration
 @DependsOn("transactionManager")
-@EnableJpaRepositories(basePackages = "com.kang.boot.dao", entityManagerFactoryRef = "orderEntityManager", transactionManagerRef = "transactionManager")
+@EnableJpaRepositories(basePackages = "com.kang.boot.dao", entityManagerFactoryRef = "orderEntityManagerFactoryBean", transactionManagerRef = "transactionManager")
 @EnableConfigurationProperties(OrderDatasourceProperties.class)
 public class OrderConfig {
 
@@ -44,8 +45,8 @@ public class OrderConfig {
 		 return xaDataSource;
 	}
 
-	@Bean(name = "orderEntityManager")
-	public LocalContainerEntityManagerFactoryBean orderEntityManager() throws Throwable {
+	@Bean(name = "orderEntityManagerFactoryBean")
+	public LocalContainerEntityManagerFactoryBean orderEntityManagerFactoryBean() throws Throwable {
 
 		HashMap<String, Object> properties = new HashMap<String, Object>();
 		properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
@@ -60,4 +61,10 @@ public class OrderConfig {
 		return entityManager;
 	}
 
+	/*@DependsOn("orderEntityManagerFactoryBean")
+	@Bean(name = "orderEntityManager")
+	public EntityManager orderEntityManager() throws Throwable{
+		return orderEntityManagerFactoryBean().getNativeEntityManagerFactory().createEntityManager();
+	}*/
+	
 }

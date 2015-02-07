@@ -4,7 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.kang.boot.po.Order;
 
-public interface IOrderDao extends JpaRepository<Order, Integer> {
+public interface OrderDao extends JpaRepository<Order, Integer>,OrderDaoCustom {//,IOrderDaoCustom
+
+	Order findByCode(int i);
 
 	
 	
