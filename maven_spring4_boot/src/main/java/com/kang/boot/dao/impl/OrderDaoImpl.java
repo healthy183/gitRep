@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.kang.boot.dao.OrderDaoCustom;
-import com.kang.boot.po.Order;
+import com.kang.boot.dao.po.Order;
 
 //@Repository
-public class OrderDaoImpl implements OrderDaoCustom {
+public class OrderDaoImpl  implements OrderDaoCustom {
 
 	@PersistenceContext(unitName="orderPersistenceUnit")
 	private EntityManager em;/**/

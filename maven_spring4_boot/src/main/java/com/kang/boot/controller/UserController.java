@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kang.boot.po.Order;
+import com.kang.boot.dao.po.Order;
+import com.kang.boot.dao.vo.User;
+import com.kang.boot.db.po.Customer;
 import com.kang.boot.service.IOrderService;
-import com.kang.boot.vo.User;
 
 //@EnableAutoConfiguration
 @RestController
@@ -18,6 +19,16 @@ public class UserController {
 
 	@Autowired
 	private	IOrderService orderService;
+	
+	//http://localhost:9090/user/findCustomer
+		@RequestMapping("/findCustomer") 
+		public List<Customer> findCustomer(){
+			
+			List<Customer>  customerList = orderService.findCustomer();
+			return customerList;
+		}
+	
+	
 	
 	//http://localhost:9090/user/1
 	@RequestMapping("/{id}")  

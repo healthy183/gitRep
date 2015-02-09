@@ -6,10 +6,12 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,6 +32,7 @@ public class OrderConfig {
 	@Autowired
 	private OrderDatasourceProperties orderDatasourceProperties;
 
+	@Primary
 	@Bean(name = "orderDataSource", initMethod = "init", destroyMethod = "close")
 	public DataSource orderDataSource() {
 		 MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
@@ -45,6 +48,7 @@ public class OrderConfig {
 		 return xaDataSource;
 	}
 
+	@Primary
 	@Bean(name = "orderEntityManagerFactoryBean")
 	public LocalContainerEntityManagerFactoryBean orderEntityManagerFactoryBean() throws Throwable {
 
@@ -55,7 +59,7 @@ public class OrderConfig {
 		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setJtaDataSource(orderDataSource());
 		entityManager.setJpaVendorAdapter(jpaVendorAdapter);
-		entityManager.setPackagesToScan("com.kang.boot.po");
+		entityManager.setPackagesToScan("com.kang.boot.dao.po");
 		entityManager.setPersistenceUnitName("orderPersistenceUnit");
 		entityManager.setJpaPropertyMap(properties);
 		return entityManager;

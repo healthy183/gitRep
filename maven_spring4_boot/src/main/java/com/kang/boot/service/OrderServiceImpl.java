@@ -3,15 +3,14 @@ package com.kang.boot.service;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kang.boot.dao.OrderDao;
-import com.kang.boot.po.Order;
+import com.kang.boot.dao.po.Order;
+import com.kang.boot.db.CustomerDao;
+import com.kang.boot.db.po.Customer;
 
 
 @Service
@@ -22,6 +21,9 @@ public class OrderServiceImpl implements IOrderService {
 	//private IOrderService OrderService;
 	@Autowired
 	private OrderDao orderDao;
+	
+	@Autowired
+	private CustomerDao customerDao;
 	
 	
 	
@@ -108,6 +110,11 @@ public class OrderServiceImpl implements IOrderService {
 		//List<Object[]> objs  = em.createNativeQuery("select * from orders").getResultList();
 		//return null;
 	//return null;
+	}
+
+	public List<Customer> findCustomer() {
+		
+		return customerDao.findAll();
 	}
 
 	//@Autowired

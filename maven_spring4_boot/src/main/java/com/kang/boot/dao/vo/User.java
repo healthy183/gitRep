@@ -1,4 +1,4 @@
-package com.kang.boot.vo;
+package com.kang.boot.dao.vo;
 
 import java.io.Serializable;
 

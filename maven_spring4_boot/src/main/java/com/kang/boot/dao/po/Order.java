@@ -1,4 +1,4 @@
-package com.kang.boot.po;
+package com.kang.boot.dao.po;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
