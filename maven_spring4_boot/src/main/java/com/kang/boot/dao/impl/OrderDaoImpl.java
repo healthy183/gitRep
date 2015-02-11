@@ -5,10 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
-
 import com.kang.boot.comon.dao.BaseJpaDaoImpl;
 import com.kang.boot.dao.OrderDaoCustom;
 import com.kang.boot.dao.po.Order;
