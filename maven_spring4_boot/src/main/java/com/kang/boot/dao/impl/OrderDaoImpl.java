@@ -16,12 +16,20 @@ import com.kang.boot.dao.po.Order;
 //@Repository
 public class OrderDaoImpl extends  BaseJpaDaoImpl<Order,Integer>  implements OrderDaoCustom {
 
-	@PersistenceContext(unitName="orderPersistenceUnit")
+	
 	private EntityManager entityManager;
 	
-	public  EntityManager getEntityManager() {
-		return entityManager;
+	@Override
+	@PersistenceContext(unitName="orderPersistenceUnit")
+	public void setEntityManager(EntityManager superEntityManager) {
+		this.superEntityManager = superEntityManager;
+		this.entityManager = superEntityManager;
 	}
+	
+	
+	/*public  EntityManager getEntityManager() {
+		return entityManager;
+	}*/
 	
 	
 	/*@Autowired
@@ -59,6 +67,8 @@ public class OrderDaoImpl extends  BaseJpaDaoImpl<Order,Integer>  implements Ord
 		
 		return objss;
 	}
+
+	
 
 
 

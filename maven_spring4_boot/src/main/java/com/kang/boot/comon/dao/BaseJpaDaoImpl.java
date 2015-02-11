@@ -9,9 +9,11 @@ import javax.persistence.Query;
 
 public abstract class BaseJpaDaoImpl<M extends java.io.Serializable, PK extends java.io.Serializable> {
 
-	//private EntityManager superEntityManager;
-	public abstract EntityManager getEntityManager();
+	protected EntityManager superEntityManager;
+	//public abstract EntityManager getEntityManager();
 
+	public abstract void setEntityManager(EntityManager superEntityManager);
+	
 	// 创建标准hqlQuery
 	public List queryHql(String hql, Object... paramlist) {
 		return createQuery(hql, paramlist).getResultList();
@@ -45,7 +47,7 @@ public abstract class BaseJpaDaoImpl<M extends java.io.Serializable, PK extends 
 	// 创建hql的query对象
 	private Query createQuery(String hql, Object[] paramlist) {
 		// Assert.hasText(hql);
-		Query query = getEntityManager().createQuery(hql);
+		Query query = superEntityManager.createQuery(hql);
 		setParameters(query, paramlist);
 		return query;
 	}
@@ -128,7 +130,7 @@ public abstract class BaseJpaDaoImpl<M extends java.io.Serializable, PK extends 
 
 	// 创建标准sqlQuery
 	private Query createSqlQuery(String natvieSQL, Object[] paramlist) {
-		Query query = getEntityManager().createNativeQuery(natvieSQL);
+		Query query = superEntityManager.createNativeQuery(natvieSQL);
 		setParameters(query, paramlist);
 		return query;
 	}
