@@ -102,13 +102,13 @@ public abstract class BaseJpaDaoImpl<M extends java.io.Serializable, PK extends 
 	}
 
 	// 使用sql.分页查询函数
-	public Page pageSqlQuery(String hql, int pageNo, int pageSize,
+	public Page pageSqlQuery(String natvieSQL, int pageNo, int pageSize,
 			Object... paramlist) {
 		// Assert.hasText(hql);
 		// Assert.isTrue(pageNo >= 1, "pageNo should start from 1");
 		// Count查询
 		String countQueryString = " select count (1) "
-				+ removeSelect(removeOrders(hql));
+				+ removeSelect(removeOrders(natvieSQL));
 		Query query = null;
 
 		query = createSqlQuery(countQueryString, paramlist);
@@ -119,7 +119,7 @@ public abstract class BaseJpaDaoImpl<M extends java.io.Serializable, PK extends 
 			return new Page();
 		// 实际查询返回分页对象
 		int startIndex = Page.getStartOfPage(pageNo, pageSize);
-		query = createSqlQuery(hql, paramlist);
+		query = createSqlQuery(natvieSQL, paramlist);
 		List list = query.setFirstResult(startIndex).setMaxResults(pageSize)
 				.getResultList();
 

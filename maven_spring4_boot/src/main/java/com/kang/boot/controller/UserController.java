@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kang.boot.dao.po.Order;
 import com.kang.boot.dao.vo.User;
@@ -20,12 +21,18 @@ public class UserController {
 	@Autowired
 	private	IOrderService orderService;
 	
+	
 	//http://localhost:9090/user/findCustomer
 		@RequestMapping("/findCustomer") 
-		public List<Customer> findCustomer(){
+		public ModelAndView findCustomer(){
 			
 			List<Customer>  customerList = orderService.findCustomer();
-			return customerList;
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("customerList",customerList);
+			
+			mv.setViewName("customer/findCustomer");
+			
+			return mv;
 		}
 	
 	

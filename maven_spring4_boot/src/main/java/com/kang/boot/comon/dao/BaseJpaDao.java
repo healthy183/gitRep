@@ -17,7 +17,7 @@ public interface BaseJpaDao<M extends java.io.Serializable, PK extends java.io.S
 	
 	public List querySql(String natvieSQL, Object... paramlist);
 	
-	public Page pageSqlQuery(String hql, int pageNo, int pageSize,Object... paramlist);
+	public Page pageSqlQuery(String natvieSQL, int pageNo, int pageSize,Object... paramlist);
 	
 	
 }
