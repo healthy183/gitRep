@@ -20,9 +20,31 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <aspectjrt.version>1.7.4</aspectjrt.version>
+	<aspectjweaver.version>1.7.4</aspectjweaver.version>
+	<cglib-nodep.version>2.1_3</cglib-nodep.version>
   </properties>
 
   <dependencies>
+  <!-- cglib -->
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>${cglib-nodep.version}</version>
+			</dependency>
+  <!-- aspectjrt -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectjrt.version}</version>
+			</dependency>
+
+			<!-- aspectjweaver -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectjweaver.version}</version>
+			</dependency>
     
   </dependencies>
 </project>

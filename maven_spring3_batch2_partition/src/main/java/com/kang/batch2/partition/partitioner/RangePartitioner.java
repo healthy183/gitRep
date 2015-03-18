@@ -17,8 +17,8 @@ public class RangePartitioner implements Partitioner {
 		
 		Map<String,ExecutionContext> result = new HashMap<String,ExecutionContext>();
 		
-		int range = 10;
-		int fromId = 1;
+		int range = 2;
+		int fromId =0;
 		int toId = range;
 		
 		for(int i =0;i<gridSize;i++){
@@ -36,8 +36,13 @@ public class RangePartitioner implements Partitioner {
 			
 			result.put("partition"+i, ex);
 			
-			fromId = toId + 1;
-			toId +=range;
+			/*fromId = toId + 1;
+			toId +=range;*/
+			
+			fromId = fromId+range;
+			
+			toId = range;
+			
 		}
 		
 		return result;

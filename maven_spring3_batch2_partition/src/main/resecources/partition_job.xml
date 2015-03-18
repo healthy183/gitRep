@@ -11,10 +11,19 @@
 		<job id="partitionJob">
 				<step id="masterStep">
 					<partition step="salve" partitioner="rangePartitioner">
-							<handler grid-size="10" task-executor="taskExecutor"></handler>
+							<handler grid-size="2" task-executor="taskExecutor"></handler>
 					</partition>
 				</step>	
 		</job>
+
+    <!-- 自定义线程池当作执行器 -->
+	<!-- <bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10" />
+		<property name="maxPoolSize" value="10" />
+		<property name="allowCoreThreadTimeOut" value="true" />
+	</bean> -->
+		
 		
 		<step id="salve">
 				<tasklet>

@@ -1,5 +1,6 @@
 package com.kang.batch2.partition.run;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ public class PartitionerTest {
 
 	
 	public static void main(String[] args) {
+		
+		//new File("csv/outputs").delete();
 		
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
