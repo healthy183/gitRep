@@ -11,7 +11,7 @@ import org.junit.Test;
 public class RoleTest extends BaseTest {
 
 	
-	//@Test
+	@Test
 	public void mainTest(){
 		
 		login("shiro-role.ini", "zhang", "123");
@@ -33,7 +33,7 @@ public class RoleTest extends BaseTest {
 		
 		Assert.assertTrue(booleanArray[1]);
 		
-		Assert.assertTrue(booleanArray[2]);
+		Assert.assertFalse(booleanArray[2]);
 		
 		System.out.println("test successfully!");
 		 

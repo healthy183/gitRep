@@ -32,7 +32,8 @@
 			<c:forEach items="${userList}" var="user">
 				<tr>
 					<td>${user.username}</td>
-					
+					<td></td>
+					<td></td>
 					<td>
 						<shiro:hasPermission name="user:update">
 								 <a href="${pageContext.request.contextPath}/user/${user.id}/update">修改</a>

@@ -20,7 +20,7 @@ public class UserDbMapper implements RowMapper<User> {
 	
 	public User mapRow(ResultSet rs, int i) throws SQLException {
 		
-		log.info("had readed db,now it is mapping to User.class which id is"+rs.getLong("ID"));
+		//log.info("had readed db,now it is mapping to User.class which id is"+rs.getLong("ID"));
 		
 		User user = new User();
 		user.setId(rs.getLong("u.id"));

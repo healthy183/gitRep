@@ -32,4 +32,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
 	@Query(value="select id,name,age from customer ",nativeQuery=true)
 	List<Customer> nativeQuery();
+
+	List<Customer> byNameQuery();
 }

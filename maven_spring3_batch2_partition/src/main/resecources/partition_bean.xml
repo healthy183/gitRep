@@ -27,26 +27,13 @@
 	 				<bean class="com.kang.batch2.partition.mapping.UserDbMapper"></bean>
 	 		</property>
 	 </bean> -->
-	 
-	 
 	 <bean id="pagingItemReader"
 	 	class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
 	 		<property name="dataSource" ref="dataSource"></property>
-	 		<!-- <property name="queryProvider">
-	 			<bean class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
-	 				<property name="dataSource" ref="dataSource"></property>
-					<property name="selectClause" value="u.id,u.name,u.age,u.balance"></property>
-					<property name="fromClause" value="from users u "></property>
-					<property name="whereClause" value=" utype  = 0 "></property>
-					<property name="sortKey" value="u.id"></property>	
-				</bean>
-	 		</property> -->
 	 		<property name="sql" value="select u.id,u.name,u.age,u.balance from users u where utype  = 0  limit ?,? "></property>
-	 		
 	 		<property name="rowMapper">
 	 				<bean class="com.kang.batch2.partition.mapping.UserDbMapper"></bean>
 	 		</property>
-	 		
 	 		<property name="preparedStatementSetter">
 	 				<bean class="org.springframework.batch.core.resource.ListPreparedStatementSetter" scope="step">
 	 					<property name="parameters">
@@ -62,6 +49,31 @@
 	 
 	 
 	 
+	 
+	 <bean id="txtReader"
+			class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">  
+					<property name="resource" value="#{jobParameters['inputFilePath']}"></property>		
+					<property name="lineMapper">
+						<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+							<property name="lineTokenizer">
+								<bean
+									class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+									<property name="delimiter" value="|"></property>
+								</bean>
+							</property>
+							
+							<property name="fieldSetMapper">
+								<bean class="com.kang.batch2.partition.mapping.UserTxtMapper">
+<!-- 										<property name="prototypeBeanName" value="studentTxt"></property>		
+ -->								</bean>
+							</property>
+						</bean>
+					</property>
+		</bean>
+		
+		
+		<!-- <bean id="studentTxt" class="com.kang.batch2.partition.model"  scope="prototype"></bean>
+		 -->
 	 
 	 
 	
@@ -79,6 +91,18 @@
 				</bean>
 			</property>
 	</bean>
+	
+	
+	<bean id="txtWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter" scope="step">
+			<property name="dataSource" ref="dataSource"></property>
+			<property name="sql" 
+				value="insert into txtUser(id) values(:id)">
+			</property>
+			<property name="itemSqlParameterSourceProvider">
+				<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider"></bean>
+			</property>
+	</bean>
+	
 	
 	
 	

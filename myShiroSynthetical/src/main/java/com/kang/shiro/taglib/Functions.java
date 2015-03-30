@@ -3,15 +3,21 @@ package com.kang.shiro.taglib;
 
 import java.util.Collection;
 
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.util.CollectionUtils;
 
 import com.kang.shiro.spring.SpringUtils;
+import com.kang.shiro.synthertical.Constants;
 import com.kang.shiro.synthertical.entity.Organization;
 import com.kang.shiro.synthertical.entity.Resource;
 import com.kang.shiro.synthertical.entity.Role;
+import com.kang.shiro.synthertical.entity.User;
 import com.kang.shiro.synthertical.service.OrganizationService;
 import com.kang.shiro.synthertical.service.ResourceService;
 import com.kang.shiro.synthertical.service.RoleService;
+import com.kang.shiro.synthertical.service.UserService;
 
 /**
  * <p>
@@ -122,9 +128,31 @@ public class Functions {
 		return s.toString();
 	}
 
+	 public static String username(Long userId) {
+	        User user = getUserService().findOne(userId);
+	        if(user == null) {
+	            return "";
+	        }
+	        return user.getUsername();
+	    }
+	
+	
+	 public static String principal(Session session) {
+	        PrincipalCollection principalCollection =
+	                (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+
+	        return (String)principalCollection.getPrimaryPrincipal();
+	    } 
+	 
+	 public static boolean isForceLogout(Session session) {
+	        return session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY) != null;
+	    }
+	 
+	 
 	private static OrganizationService organizationService;
 	private static RoleService roleService;
 	private static ResourceService resourceService;
+	private static UserService userService;
 
 	public static OrganizationService getOrganizationService() {
 		if (organizationService == null) {
@@ -147,4 +175,11 @@ public class Functions {
 		}
 		return resourceService;
 	}
+	
+	public static UserService getUserService() {
+        if(userService == null) {
+            userService = SpringUtils.getBean(UserService.class);
+        }
+        return userService;
+    }
 }

@@ -13,7 +13,11 @@
 	<iframe name="context" class="ui-layout-center"
 		src="${pageContext.request.contextPath}/welcome" frameborder="0" scrolling="auto">
 	</iframe>
-	<div class="ui-layout-north">welcome[<shiro:principal/>]</div>
+	<div class="ui-layout-north">welcome[<shiro:principal/>]
+		|
+		<a href="${pageContext.request.contextPath}/runas">切换身份</a>	
+	
+	</div>
 	
 	<div class="ui-layout-south">
     	获取源码：<a href="https://github.com/zhangkaitao/shiro-example" target="_blank">https://github.com/zhangkaitao/shiro-example</a>
@@ -28,6 +32,7 @@
 		</a><br/>
 		
 	</c:forEach>
+	</div>
 	
 	<script src="${pageContext.request.contextPath}/static/js/jquery-1.11.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/js/jquery.layout-latest.min.js"></script>

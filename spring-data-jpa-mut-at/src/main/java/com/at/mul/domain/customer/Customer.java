@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = { "id" })
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedQuery(name="Customer.byNameQuery",query = "from Customer")
 public class Customer {
 
 	@Id

@@ -24,7 +24,13 @@ public class LoginController {
         } else if(exceptionClassName != null) {
             error = "其他错误：" + exceptionClassName;
         }
+        
         model.addAttribute("error", error);
+        
+        if(req.getParameter("forceLogout") != null) {  
+            model.addAttribute("error", "您已经被管理员强制退出，请重新登录");  
+        } 
+        
         return "login";
     }
 	

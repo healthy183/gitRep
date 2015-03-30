@@ -27,7 +27,7 @@ public class PasswordTest extends BaseTest {
 	//@Test
 	public void testSalt(){
 		//only validate password
-		login("classpath:shiro-hashedCredentialsMatcher.ini", "liudd", "123ff");
+		login("classpath:shiro-hashedCredentialsMatcher.ini", "liud", "123");
 		
 		boolean authenticated = getSubject().isAuthenticated();
 		 

@@ -20,13 +20,18 @@ public class UserProcessor implements ItemProcessor<User,User> {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Value("#{stepExecutionContext[name]}")
-	private String threadName;	
+	private String excutionContextId;	
 	
 	public User process(User item) throws Exception {
 		
-		System.out.println(threadName +" processing: "+ item.getId()+","+item.getName());
+		System.out.println("threadId:"+Thread.currentThread().getId() +",excutionContextId:"+excutionContextId+" processing: "+ item.getId()+","+item.getName());
+		//jdbcTemplate.execute("update users set utype  = 1 where id = " + item.getId());
 		
-		jdbcTemplate.execute("update users set utype  = 1 where id = " + item.getId());
+		/*try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
 		
 		return item;
 	}

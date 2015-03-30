@@ -1,8 +1,6 @@
 package com.kang.shiro.myShiroAuthorization;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.apache.shiro.subject.Subject;
 import org.junit.Assert;
@@ -19,7 +17,7 @@ public class PermissionTest extends RoleTest{
 		
 		Assert.assertTrue(subject.isPermitted("user:create"));
 		
-		boolean isTrue = subject.isPermittedAll("user:create","user:update","user:updat");
+		boolean isTrue = subject.isPermittedAll("user:create","user:update","user:update");
 		
 		Assert.assertTrue(isTrue);
 	}
@@ -137,7 +135,7 @@ public class PermissionTest extends RoleTest{
 	}
 	
 	
-	  @Test
+	@Test
     public void testNewWildcardPermission() {
         login("shiro-permission.ini", "li8", "123");
         

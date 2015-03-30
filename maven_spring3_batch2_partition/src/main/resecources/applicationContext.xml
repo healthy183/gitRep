@@ -53,7 +53,30 @@
 
   <bean id="syncTaskExecutor" class="org.springframework.core.task.SyncTaskExecutor"></bean>	  
 
-<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"></bean>
+<!-- <bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"></bean>
+ -->
+ 
+
+ 
+ 
+ 	<bean id="partitionHandler"
+		class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler">
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="step" ref="txtSalve" />
+		<property name="gridSize" value="100" />
+	</bean>
+ 
+ 
+ 
+<!-- 自定义线程池当作执行器 -->
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="5" />
+		<property name="allowCoreThreadTimeOut" value="true" />
+	</bean>
+
+
 
 
  <import resource="partition_bean.xml"/>

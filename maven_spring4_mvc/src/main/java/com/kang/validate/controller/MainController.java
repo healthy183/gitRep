@@ -54,7 +54,7 @@ public class MainController {
 		
 		ModelAndView mv = new ModelAndView();
 		
-		mv.addObject("usrpwd", usrpwd);	
+		mv.addObject("usrpwd", usrpwd+"add by healthy!");	
 		mv.setViewName("welcome/welcome");
 		
 		return mv;

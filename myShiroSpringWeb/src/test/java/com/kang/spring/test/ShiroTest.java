@@ -33,7 +33,10 @@ import com.kang.spring.service.UserService;
 @TransactionConfiguration(defaultRollback = false)
 public class ShiroTest {
 
-
+	/*public static void main(String[] args) {
+		System.out.println("test");
+	}*/
+	
 
     @Autowired
     protected PermissionService permissionService;

@@ -8,31 +8,45 @@
      http://www.springframework.org/schema/batch 
      http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
 		
-		<job id="partitionJob">
+		<job id="partitionJob" >
 				<step id="masterStep">
-					<partition step="salve" partitioner="rangePartitioner">
-							<handler grid-size="2" task-executor="taskExecutor"></handler>
+					<partition step="salve" partitioner="rangePartitioner" >
+							<handler grid-size="10" task-executor="taskExecutor" ></handler>
 					</partition>
 				</step>	
 		</job>
 
-    <!-- 自定义线程池当作执行器 -->
-	<!-- <bean id="taskExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="10" />
-		<property name="maxPoolSize" value="10" />
-		<property name="allowCoreThreadTimeOut" value="true" />
-	</bean> -->
+    
 		
 		
 		<step id="salve">
-				<tasklet>
+				<tasklet >
 					<chunk reader="pagingItemReader" writer="flatFileItemWriter" 
 						processor="userProcessor" 
-								commit-interval="1">
+								commit-interval="1" >
 					</chunk>
 				</tasklet>
 		</step>
+		
+		
+		
+		<job id="partitionTxtJob">
+				<step id="txtStep">
+					<partition  partitioner="txtPartitioner" handler="partitionHandler">
+					</partition>
+				</step>	
+		</job>
+		
+		
+		<step id="txtSalve">
+				<tasklet>
+					<chunk reader="txtReader" writer="txtWriter" 
+						processor="userProcessor" 
+								commit-interval="100" >
+					</chunk>
+				</tasklet>
+		</step>
+		
 		
 			
 	

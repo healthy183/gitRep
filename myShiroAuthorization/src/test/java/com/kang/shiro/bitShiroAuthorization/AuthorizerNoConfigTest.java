@@ -44,7 +44,7 @@ public class AuthorizerNoConfigTest {
 		druidDataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		druidDataSource.setUrl("jdbc:mysql://localhost:3306/shiro");
 		druidDataSource.setUsername("root");
-		druidDataSource.setPassword("123456");
+		druidDataSource.setPassword("Qq123456");
 		
 		JdbcRealm jdbcRealm = new JdbcRealm();
 		jdbcRealm.setDataSource(druidDataSource);

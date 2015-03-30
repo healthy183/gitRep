@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <hr>
  <b>test servlet!</b>
 		<form action="HelloServlet" method="post">
-			用户名:<input name="usrName" vlaue="kkk"></input>
+			用户名:<input name="usrName" value="kkk"></input>
 			<input type="submit" value="提交"></input>
 </form>
 	

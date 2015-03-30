@@ -5,6 +5,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -41,10 +42,11 @@ public class ShiroLoginAndOutTest {
         UsernamePasswordToken token = new UsernamePasswordToken(usrName,"123");
         
         // login == validated the usrName and password
+       // subject.login(token);
         try {
         	subject.login(token);
 		} catch (Exception e) {
-			//e.getStackTrace();
+			e.getStackTrace();
 		}
         
         //isAuthenticated  是否授权  islogin
@@ -56,7 +58,7 @@ public class ShiroLoginAndOutTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void testHelloWorld(){
 		
 		String firstIni = "shiro-realm.ini";
@@ -66,16 +68,16 @@ public class ShiroLoginAndOutTest {
 		//commonSecurity(firstRealm,"Healthy183");
 		
 		String multiRealm = "shiro-multi-realm.ini";
-		//commonSecurity(multiRealm,"Wyheng189");
+		//commonSecurity(multiRealm,"Healthy183");
 		
 		String jdbcRealm = "shiro-jdbc-realm.ini";
-		commonSecurity(jdbcRealm,"zhang");
+		//commonSecurity(jdbcRealm,"zhang");
 		
 		//subject.logout();
 		
 	}
 	
-	//@Test(expected = UnknownAccountException.class)
+	// @Test//(expected = UnknownAccountException.class)
 	 public void testAllSuccessfulStrategyWithFail() {
 		 
 		/*
@@ -94,7 +96,7 @@ public class ShiroLoginAndOutTest {
 		 org.apache.shiro.authc.pam.AllSuccessfulStrategy allSuccessfulStrategy;
 		 
 		String allFail = "shiro-authenticator-all-fail.ini";
-		commonSecurity(allFail,"Wyheng189");
+		commonSecurity(allFail,"Healthy183");
 	
 	   // Subject subject = SecurityUtils.getSubject();  
 		
@@ -120,13 +122,13 @@ public class ShiroLoginAndOutTest {
 		org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy atLeastOneSuccessfulStrategy;
 		
 		String allSuccess = "shiro-authenticator-atLeastOne-success.ini";
-		commonSecurity(allSuccess,"Healthy183");
+		commonSecurity(allSuccess,"Healthy183");//Wyheng189
 		
 		commonGetListMsg(); //Healthy183,Healthy183@kang.com 
 	} 
 	
-	//@Test
-	public void testFirstOneSuccessful(){
+	//@Test 
+	public void testFirstSuccessful(){
 		
 		org.apache.shiro.authc.pam.FirstSuccessfulStrategy firstSuccessfulStrategy;
 		
@@ -151,7 +153,7 @@ public class ShiroLoginAndOutTest {
 		
 	}
 
-	//@Test
+	@Test
 	public void atLeastTwoSuccessful(){
 		
 		

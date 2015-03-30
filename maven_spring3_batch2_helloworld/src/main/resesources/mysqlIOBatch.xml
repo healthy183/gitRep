@@ -48,4 +48,69 @@
 			</property>
 	</bean>
 	
+
+
+	<!-- <batch:job id="batchWithPartition">
+		<batch:step id="step1.master">
+			<batch:partition partitioner="myPartitioner" handler="partitionHandler" />
+		</batch:step>
+	</batch:job>
+	This one will create Paritions of Number of lines/ Grid Size
+	<bean id="myPartitioner" class="....ColumnRangePartitioner" />
+	
+	
+	This one will handle every partition in a Thread
+	<bean id="partitionHandler"
+		class="org.springframework.batch.core.partition.support.TaskExecutorPartitionHandler">
+		<property name="taskExecutor" ref="multiThreadedTaskExecutor" />
+		<property name="step" ref="step1" />
+		<property name="gridSize" value="10" />
+	</bean>
+	<batch:step id="step1">
+		<batch:tasklet transaction-manager="transactionManager">
+			<batch:chunk reader="myItemReader" writer="manipulatableWriterForTests"
+				commit-interval="1" skip-limit="30000">
+				<batch:skippable-exception-classes>
+					<batch:include class="java.lang.Exception" />
+				</batch:skippable-exception-classes>
+			</batch:chunk>
+		</batch:tasklet>
+	</batch:step>
+	scope step is critical here
+	<bean id="myItemReader"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql">
+			<value>
+            <![CDATA[
+                select * from customers where id >= ? and id <=  ?
+            ]]>
+			</value>
+		</property>
+		<property name="preparedStatementSetter">
+			<bean
+				class="org.springframework.batch.core.resource.ListPreparedStatementSetter">
+				<property name="parameters">
+					<list>
+						minValue and maxValue are filled in by Partitioner for each Partition 
+							in an ExecutionContext
+						<value>{stepExecutionContext[minValue]}</value>
+						<value>#{stepExecutionContext[maxValue]}</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="rowMapper" ref="customerRowMapper" />
+	</bean>
+	 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	</beans>

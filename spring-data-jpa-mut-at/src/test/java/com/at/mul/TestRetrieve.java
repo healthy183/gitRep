@@ -34,6 +34,15 @@ public class TestRetrieve {
 	private CustomerRepository customerRepository;
 
 	@Test
+	public void nameQuery(){
+		
+		List<Customer> customerList =  customerRepository.byNameQuery();
+		
+		Assert.assertTrue(customerList.size()>0);
+	}
+	
+	
+	//@Test
 	public void nativeQuery(){
 		
 		List<Customer> customerList =  customerRepository.nativeQuery();

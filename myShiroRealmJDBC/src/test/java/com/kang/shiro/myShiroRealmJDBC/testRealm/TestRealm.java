@@ -11,11 +11,11 @@ public class TestRealm extends BaseTest {
 
 	String classpatch = "classpath:shiro.ini";
 	
-	 //@Test
+	//@Test
 	public void testLogin(){ 
 		 //test try login  over 5 times  throw ExcessiveAttemptsException;
-		 /**
-		 for(int i = 0;i<5;i++){
+		 
+		/* for(int i = 0;i<5;i++){
 			 
 			 try {
 				 login("classpath:shiro.ini",u1.getUserName(),"abc"); 
@@ -24,7 +24,8 @@ public class TestRealm extends BaseTest {
 			}
 		 }
 		login("classpath:shiro.ini",u1.getUserName(),"");
-		  */
+		*/
+		  
 		 
 		login("classpath:shiro.ini",u1.getUserName(),password); 
 		 
@@ -49,13 +50,13 @@ public class TestRealm extends BaseTest {
 	 
      
      //@Test
-    // @Test(expected = LockedAccountException.class)
+     //@Test(expected = LockedAccountException.class)
 	 public void lockAccount(){
     	 login(classpatch, u4.getUserName(), password);
 	 }
 	
     
-	// @Test
+	 //@Test
      public void hadRole(){
     	 
 		 login(classpatch, u1.getUserName(), password);
@@ -70,7 +71,7 @@ public class TestRealm extends BaseTest {
      }
 	
      
-    // @Test
+     //@Test
 	 public void hadPermission(){
 		
 		 login(classpatch, u1.getUserName(), password);
