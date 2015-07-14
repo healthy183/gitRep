@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>maven_assembly</groupId>
+		<artifactId>maven_assembly</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>maven_assembly_core</groupId>
+	<artifactId>maven_assembly_core</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>maven_assembly_core</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mavenDir>dev</mavenDir>
+		<dirSuffix>dev</dirSuffix>
+	</properties>
+	
+	
+	
+		<profiles>
+		<profile>
+			<id>dev</id>
+			<!--<activation> <activeByDefault>true</activeByDefault> </activation> -->
+			<properties>
+				<mavenDir>dev</mavenDir>
+				<env>dev</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<mavenDir>test</mavenDir>
+				<env>test</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>product</id>
+			<properties>
+				<mavenDir>product</mavenDir>
+				<env>product</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>uat</id>
+			<properties>
+				<mavenDir>uat</mavenDir>
+				<env>uat</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>qpe</id>
+			<properties>
+				<mavenDir>qpe</mavenDir>
+				<env>qpe</env>
+			</properties>
+		</profile>
+	</profiles>
+	
+	
+	
+	
+	
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+		</dependency>
+	</dependencies>
+	
+	
+	<build>
+	
+	<finalName>maven_assembly_core</finalName>
+	<resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <!--<includes>
+                    <include>**/*.xml</include>
+                    <include>**/META-INF/**</include>
+                    <include>
+                        *-${dirSuffix}.properties
+                    </include>&ndash;&gt;
+                </includes>-->
+            </resource>
+        </resources>
+        <plugins>
+           <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude> **/assemble/**</exclude>
+                        <exclude> **/properties/** </exclude>
+                        <exclude> **/log4j.properties </exclude>
+                        <exclude> **/script/**</exclude>
+                          <exclude> **/spring/**</exclude>
+                        <exclude> **/sqlmap/** </exclude>
+                         <exclude> **/jobs/** </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>  <!--执行器 mvn assembly:assembly-->
+                    <execution>
+                        <id>make-zip</id><!--名字任意 -->
+                        <phase>package</phase><!-- 绑定到package生命周期阶段上 -->
+                        <goals>
+                            <goal>single</goal><!-- 只运行一次 -->
+                        </goals>
+                        <configuration>
+                            <descriptors> <!--描述文件路径-->
+                                <descriptor>src/main/resources/assemble/descriptor.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+	
+	
+	
+</project>
+
+
